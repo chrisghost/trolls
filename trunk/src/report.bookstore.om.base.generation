@@ -1,0 +1,53 @@
+
+targetdatabase = postgresql
+
+correctGetters = 
+
+             
+
+
+
+
+
+
+
+
+
+    BasePeers generated in package torque.generated
+    BaseObjects generated in package torque.generated
+    BaseManagers generated in package torque.generated
+    BaseBeans generated in package torque.generated.bean
+    Maps generated in package torque.generated.map
+
+    Failed to create dir or dir already exists: /home/chrissou/Desktop/testtorque/src/torque/generated/
+
+    Failed to create dir or dir already exists: /home/chrissou/Desktop/testtorque/src/torque/generated/
+
+    Failed to create dir or dir already exists: /home/chrissou/Desktop/testtorque/src/torque/generated/map/
+
+
+
+    
+
+        troll
+
+        
+
+        
+
+          
+
+
+          
+
+
+
+
+
+
+    
+
+;
+    Failed to create dir or dir already exists: /home/chrissou/Desktop/testtorque/src/org/apache/torque/linkage/
+    
+

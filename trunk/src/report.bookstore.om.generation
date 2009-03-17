@@ -1,0 +1,36 @@
+
+targetdatabase = postgresql
+
+correctGetters = 
+
+             
+
+
+
+
+
+
+
+
+
+    Peers generated in package torque.generated
+    Objects generated in package torque.generated
+    Managers generated in package torque.generated
+    Beans generated in package torque.generated.bean
+
+    Failed to create dir or dir already exists: /home/chrissou/Desktop/testtorque/src/torque/generated/
+
+    Failed to create dir or dir already exists: /home/chrissou/Desktop/testtorque/src/torque/generated/
+
+
+
+
+        troll
+
+        
+
+
+
+
+
+
