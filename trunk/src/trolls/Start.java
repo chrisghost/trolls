@@ -13,15 +13,21 @@ public class Start {
 	public final static String TORQUE_PROPS = new String("torque-3.3/Torque.properties");
 
 	public static void main(String[] args) {
+//		Fonction principale du programme, contiendra l'appel au moteur graphique et au moteur de jeu.
 		
-//		Map carte = new Map(10,10,50);
+//		Ce qui suit permet de tester les fonctionnalités implémentées pour le moment
+
+		MoteurGraphique IG = new MoteurGraphique(null, null, null);
 		
-		Menu ig = new Menu();
+		IG.afficherMenuPrincipal();
+		
+		
+//		Menu ig = new Menu();
 		
 //		int i = ig.MenuPrincipal();
 		
-		if(ig.questionSimple("Ca marche?"))
-			System.out.println("Yes!");
+//		if(ig.questionSimple("Ca marche?"))
+//			System.out.println("Yes!");
 		
 	}
 
