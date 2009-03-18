@@ -16,6 +16,8 @@ CREATE TABLE troll
     pa INTEGER,
     x INTEGER NOT NULL,
     y INTEGER NOT NULL,
+    id_equip_arme INTEGER,
+    id_equip_protect INTEGER,
     PRIMARY KEY (nom)
 );
 
@@ -29,6 +31,8 @@ COMMENT ON COLUMN troll.esquive IS 'Points d'esquive';
 COMMENT ON COLUMN troll.pa IS 'Points d'action';
 COMMENT ON COLUMN troll.x IS 'absisse_case';
 COMMENT ON COLUMN troll.y IS 'ordonne_case';
+COMMENT ON COLUMN troll.id_equip_arme IS 'id de l'arme Ã©quipÃ©e';
+COMMENT ON COLUMN troll.id_equip_protect IS 'id de la protection Ã©quipÃ©e';
 
 
 -----------------------------------------------------------------------------

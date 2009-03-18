@@ -72,7 +72,19 @@
  		name="y"
  		required="true"
  		type="INTEGER"
- 		description="ordonne_case"/>	
+ 		description="ordonne_case"/>
+
+	<column name="id_equip_arme"
+		required="false"
+		type="INTEGER"
+		description="id de l'arme équipée"/>
+
+	<column name="id_equip_protect"
+		required="false"
+		type="INTEGER"
+		description="id de la protection équipée"/>
+
+
       
   </table>
 
