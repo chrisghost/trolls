@@ -35,20 +35,25 @@ public class MoteurJeu {
 		this.carte = new Map(x,y,nb_obj);
 		
 		this.troll1 = new Troll();
-		this.troll1.setNom(this.IG.question("Nom du premier troll:"));
-		boolean incomplet = true;
-		while (incomplet){
-			this.IG.afficher("Affectation des points de " + this.troll1.getNom());
-//			TO-DO : A DEPLACER dans un méthode du troll (ex: Init(IG) ) après régénération du code torque
-//			  attaque, dégâts, esquive, point de vie
-			this.troll1.setAttaque(this.IG.questionInt("Nombre de points d'attaque : "));
-			this.troll1.setDegats(this.IG.questionInt("Nombre de points de dégâts : "));
-			this.troll1.setEsquive(this.IG.questionInt("Nombre de points d'esquive : "));
-			this.troll1.setVie(this.IG.questionInt("Nombre de points de vie : "));
-		}
+		this.troll1.init(this.IG);
 		
 		this.troll2 = new Troll();
-		this.troll2.setNom(this.IG.question("Nom du second troll:"));
+		this.troll2.init(this.IG);
+		
+		this.IG.afficher("Préparation du jeu terminée, jouons!");
+		this.jeu();
+	}
+	
+	private void jeu() {
+		this.IG.afficher("Début de partie");
+		
+		while(!this.fini()){
+			
+		}
+	}
+	
+	private boolean fini(){
+		return (this.troll1.getVie() == 0 || this.troll2.getVie() == 0);
 	}
 	
 }
