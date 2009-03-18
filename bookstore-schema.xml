@@ -213,7 +213,10 @@
   		required="true"
   		type="INTEGER"
   		description="duree_de_la_potion"/>  		
-  		
+	
+	<column name="use"
+		type="BOOLEANINT"
+		description="Si vrai, potion utilisée à l'instant t" />  		
   		
     <foreign-key foreignTable="objet">
       <reference local="id_objet" foreign="id"/>
