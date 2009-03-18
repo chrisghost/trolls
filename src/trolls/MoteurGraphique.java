@@ -11,10 +11,16 @@ public class MoteurGraphique {
 	vueTroll vueTroll2;
 	vueMap vueMap;
 	
-	public MoteurGraphique(Troll t1, Troll t2, Map m) {
+	public MoteurGraphique() {
 		this.menu = new Menu();
+	}
+	
+	public void affecterTrolls(Troll t1, Troll t2) {
 		this.vueTroll1 = new vueTroll(t1);
 		this.vueTroll2 = new vueTroll(t2);
+	}
+	
+	public void affecterMap(Map m) {
 		this.vueMap = new vueMap(m);
 	}
 	

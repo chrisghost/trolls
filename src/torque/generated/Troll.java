@@ -3,6 +3,8 @@ package torque.generated;
 
 import org.apache.torque.om.Persistent;
 
+import trolls.MoteurGraphique;
+
 /**
  * Troll_s_
  *
@@ -20,5 +22,18 @@ public  class Troll
 {
     /** Serial version */
     private static final long serialVersionUID = 1237199820151L;
-
+    
+    public void init(MoteurGraphique IG) {
+		this.setNom(IG.question("Nom du premier troll:"));
+		boolean incomplet = true;
+		while (incomplet){
+			IG.afficher("Affectation des points de " + this.getNom());
+			this.setAttaque(IG.questionInt("Nombre de points d'attaque : "));
+			this.setDegats(IG.questionInt("Nombre de points de dégâts : "));
+			this.setEsquive(IG.questionInt("Nombre de points d'esquive : "));
+			this.setVie(IG.questionInt("Nombre de points de vie : "));
+			
+			incomplet = (this.getAttaque()+this.getDegats()+this.getEsquive()+this.getVie()) != 40;
+		}
+    }
 }

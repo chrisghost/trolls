@@ -17,10 +17,9 @@ public class Start {
 		
 //		Ce qui suit permet de tester les fonctionnalités implémentées pour le moment
 
-		MoteurGraphique IG = new MoteurGraphique(null, null, null);
+		MoteurGraphique IG = new MoteurGraphique();
 		
 		IG.afficherMenuPrincipal();
-		
 		
 //		Menu ig = new Menu();
 		
