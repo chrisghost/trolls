@@ -15,7 +15,10 @@ public class MoteurJeu {
 		this.IG.afficher("Bienvenue dans le jeu de duel de troll." +
 				"A tout moment vous pouvez quitter en éteignant l'ordinateur" +
 				"Bon jeu");
+		
 		int r = this.IG.afficherMenuPrincipal();
+
+		
 		
 		switch (r) {
 		case 1:
@@ -23,6 +26,7 @@ public class MoteurJeu {
 			break;
 
 		default:
+			
 			break;
 		}
 	}
@@ -34,8 +38,11 @@ public class MoteurJeu {
 		int nb_obj = this.IG.questionInt("Combien d'objets voulez vous mettre sur la carte? (<"+ (x*y+1) +") :");
 		this.carte = new Map(x,y,nb_obj);
 		
+		
 		this.troll1 = new Troll();
+		this.IG.afficher("toto1");
 		this.troll1.init(this.IG);
+		this.IG.afficher("toto2");
 		
 		this.troll2 = new Troll();
 		this.troll2.init(this.IG);
