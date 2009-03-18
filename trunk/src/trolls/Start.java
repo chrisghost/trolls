@@ -17,6 +17,7 @@ public class Start {
 		
 //		Ce qui suit permet de tester les fonctionnalités implémentées pour le moment
 
+
 		MoteurGraphique IG = new MoteurGraphique();
 		MoteurJeu MJ = new MoteurJeu(IG);
 		

@@ -51,6 +51,30 @@ public class Menu {
 
 	}
 	
+	
+	public int MenuTour() {
+		System.out.println("********************** Menu Principal **********************");
+		System.out.println("* 1- Deplacemenent_________________________________________*");
+		System.out.println("* 2- Attaquer______________________________________________*");
+		System.out.println("* 3- Ramasser______________________________________________*");
+		System.out.println("* 4- Utiliser______________________________________________*");
+		System.out.println("* 5- Equiper_______________________________________________*");
+		System.out.println("* 0- Quitter_______________________________________________*");
+		System.out.println("***** Trolls by Favre Pierre-Edouard && Maillol Adrien *****");
+		
+
+		int rep = -1;
+		while((rep!=1) && (rep!=2) && (rep!=3) && (rep!=4) && (rep!=5))
+			rep = MoteurGraphique.lireInt();
+
+		return rep;
+	}
+	
+	
+	
+	
+	
+	
 	public String question(String question) {
 		System.out.println("********************** Question **********************");
 		System.out.println(question);
