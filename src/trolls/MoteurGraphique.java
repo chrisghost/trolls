@@ -15,6 +15,10 @@ public class MoteurGraphique {
 		this.menu = new Menu();
 	}
 	
+	public  int menuTour() {
+		return menu.MenuTour();
+	}
+	
 	public void affecterTrolls(Troll t1, Troll t2) {
 		this.vueTroll1 = new vueTroll(t1);
 		this.vueTroll2 = new vueTroll(t2);
@@ -38,6 +42,10 @@ public class MoteurGraphique {
 
 	public int questionInt(String question) {
 		return this.menu.questionInt(question);
+	}
+	
+	public void afficheInfosTroll(Troll troll) {
+			// a implémenter
 	}
 	
 	public void afficher(String message) {

@@ -2,6 +2,7 @@ package trolls;
 
 import torque.generated.Troll;
 
+
 public class MoteurJeu {
 	
 	MoteurGraphique IG;
@@ -40,9 +41,7 @@ public class MoteurJeu {
 		
 		
 		this.troll1 = new Troll();
-		this.IG.afficher("toto1");
 		this.troll1.init(this.IG);
-		this.IG.afficher("toto2");
 		
 		this.troll2 = new Troll();
 		this.troll2.init(this.IG);
@@ -55,12 +54,47 @@ public class MoteurJeu {
 		this.IG.afficher("Début de partie");
 		
 		while(!this.fini()){
-			
+				
+			if(	( Math.random()*( 100 - 1 + 1 ) ) + 1>50){	// random pour savoir qui commence
+				this.Tour(troll1);  						// tour de troll1 puis de troll2
+				this.Tour(troll2);	
+			} else {
+				this.Tour(troll2);
+				this.Tour(troll1);	
+			}
+		}
+		
+		
+		
+		if (this.troll1.getVie() == 0){
+			this.IG.afficher("Victoire de " + this.troll1.getNom());
+		} else if (this.troll2.getVie() == 0) {
+			this.IG.afficher("Victoire de " + this.troll1.getNom());
+		} else {
+			this.IG.afficher("Partie Terminée");
 		}
 	}
 	
 	private boolean fini(){
 		return (this.troll1.getVie() == 0 || this.troll2.getVie() == 0);
+	}
+	
+	private void Tour(Troll troll){
+		if (troll.getVie() != 0){ 
+			this.IG.afficher("C'est à " + troll.getNom() + " de jouer");
+			this.IG.afficheInfosTroll(troll); //sa position, sa vie restante, son nombre de points d'action
+			while (troll.getPa()!=0){
+				int r = MoteurGraphique.menuTour();
+				
+			}
+			
+			
+			
+			
+			
+			
+		}
+		
 	}
 	
 }

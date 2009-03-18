@@ -1,6 +1,8 @@
 package torque.generated;
 
 
+import java.io.IOException;
+
 import org.apache.torque.om.Persistent;
 
 import trolls.MoteurGraphique;
@@ -23,8 +25,14 @@ public  class Troll
     /** Serial version */
     private static final long serialVersionUID = 1237199820151L;
     
+    
+    
+   
+    
+    
     public void init(MoteurGraphique IG) {
-		this.setNom(IG.question("Nom du premier troll:"));
+        this.setNom(IG.question("Nom du premier troll:"));
+    	
 		boolean incomplet = true;
 		while (incomplet){
 			IG.afficher("Affectation des points de " + this.getNom());
