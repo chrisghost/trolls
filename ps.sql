@@ -34,6 +34,10 @@ DECLARE
 BEGIN
 
 	SELECT SUM(potion.bonusattaque) INTO nb FROM potion, sad WHERE sad.id_objet = potion.id_objet AND sad.nomtroll = n_troll AND potion.use = 1;
+	IF nb IS NULL THEN
+		nb := 0;
+	END IF;
+		
 	RETURN nb;
 END;
 $$ LANGUAGE plpgsql;
@@ -45,6 +49,9 @@ DECLARE
 BEGIN
 
 	SELECT SUM(potion.bonusdegat) INTO nb FROM potion, sad WHERE sad.id_objet = potion.id_objet AND sad.nomtroll = n_troll AND potion.use = 1;
+	IF nb IS NULL THEN
+		nb := 0;
+	END IF;
 	RETURN nb;
 END;
 $$ LANGUAGE plpgsql;
@@ -57,6 +64,9 @@ DECLARE
 BEGIN
 
 	SELECT SUM(potion.bonusesquive) INTO nb FROM potion, sad WHERE sad.id_objet = potion.id_objet AND sad.nomtroll = n_troll AND potion.use = 1;
+	IF nb IS NULL THEN
+		nb := 0;
+	END IF;
 	RETURN nb;
 END;
 $$ LANGUAGE plpgsql;
@@ -79,6 +89,8 @@ BEGIN
 	pts_att := pts_att * dé() + bonus_attaque(attaquant);
 	pts_esq := pts_esq * dé() + bonus_esquive(defenseur);
 	pts_deg := pts_deg * dé() + bonus_degats(attaquant);
+
+	RAISE NOTICE 'attaque de % contre esquive de %', pts_att, pts_esq;
 
 	IF pts_att > pts_esq THEN
 		UPDATE troll SET vie = troll.vie - pts_deg WHERE nom = defenseur;
