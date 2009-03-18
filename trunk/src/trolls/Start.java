@@ -19,7 +19,7 @@ public class Start {
 
 		MoteurGraphique IG = new MoteurGraphique();
 		
-		IG.afficherMenuPrincipal();
+		System.out.println(IG.afficherMenuPrincipal());
 		
 //		Menu ig = new Menu();
 		

@@ -123,6 +123,7 @@ CREATE TABLE potion
     bonusEsquive INTEGER NOT NULL,
     bonusVie INTEGER NOT NULL,
     duree INTEGER NOT NULL,
+    use INT2,
     PRIMARY KEY (id_objet)
 );
 
@@ -135,6 +136,7 @@ COMMENT ON COLUMN potion.bonusDegat IS 'bonus_degat_de_la_potion';
 COMMENT ON COLUMN potion.bonusEsquive IS 'bonus_esquive_de_la_potion';
 COMMENT ON COLUMN potion.bonusVie IS 'bonus_vie_de_la_potion';
 COMMENT ON COLUMN potion.duree IS 'duree_de_la_potion';
+COMMENT ON COLUMN potion.use IS 'Si vrai, potion utilisÃ©e Ã  l'instant t';
 
 
 -----------------------------------------------------------------------------

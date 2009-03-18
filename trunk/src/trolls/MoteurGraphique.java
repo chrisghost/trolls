@@ -51,5 +51,10 @@ public class MoteurGraphique {
 		Scanner sc = new Scanner(System.in);
 		return sc.nextLine();
 	}
+	
+	public static int lireInt() {
+		Scanner sc = new Scanner(System.in);
+		return sc.nextInt();
+	}
 
 }

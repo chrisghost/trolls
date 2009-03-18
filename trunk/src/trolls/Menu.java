@@ -10,14 +10,10 @@ public class Menu {
 		System.out.println("* 0- Quitter_______________________________________________*");
 		System.out.println("***** Trolls by Favre Pierre-Edouard && Maillol Adrien *****");
 		
-		int rep= 100;
-		while(rep!=0 && rep!=1)
-			try {
-				rep = System.in.read();
-			} catch (IOException e) {
-				System.out.println("Entrez un entier!");
-				e.printStackTrace();
-			}
+		int rep = -1;
+		while(rep == -1)
+			rep = MoteurGraphique.lireInt();
+
 		return rep;
 	}
 	
