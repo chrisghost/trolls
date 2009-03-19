@@ -46,6 +46,7 @@ CREATE TABLE map
 (
     x INTEGER NOT NULL,
     y INTEGER NOT NULL,
+    nom VARCHAR(128) NOT NULL,
     PRIMARY KEY (x,y)
 );
 
@@ -53,6 +54,7 @@ COMMENT ON TABLE map IS 'Infos sur la carte';
 
 COMMENT ON COLUMN map.x IS 'taille en x';
 COMMENT ON COLUMN map.y IS 'taille en y';
+COMMENT ON COLUMN map.nom IS 'nom de la map';
 
 
 -----------------------------------------------------------------------------
@@ -89,12 +91,14 @@ CREATE SEQUENCE objet_SEQ INCREMENT BY 1 START WITH 1 NO MAXVALUE NO CYCLE;
 CREATE TABLE objet
 (
     id INTEGER NOT NULL,
+    truc VARCHAR(128) NOT NULL,
     PRIMARY KEY (id)
 );
 
 COMMENT ON TABLE objet IS 'Objets';
 
 COMMENT ON COLUMN objet.id IS 'id_de_l_objet';
+COMMENT ON COLUMN objet.truc IS 'truc';
 
 
 -----------------------------------------------------------------------------
@@ -111,6 +115,7 @@ CREATE TABLE arme
     bonusAttaque INTEGER NOT NULL,
     bonusDegat INTEGER NOT NULL,
     bonusEsquive INTEGER NOT NULL,
+    portee INTEGER,
     PRIMARY KEY (id_objet)
 );
 
@@ -121,6 +126,7 @@ COMMENT ON COLUMN arme.nom IS 'nom_de_l_arme';
 COMMENT ON COLUMN arme.bonusAttaque IS 'bonus_attaque_de_l_arme';
 COMMENT ON COLUMN arme.bonusDegat IS 'bonus_degat_de_l_arme';
 COMMENT ON COLUMN arme.bonusEsquive IS 'bonus_esquive_de_l_arme';
+COMMENT ON COLUMN arme.portee IS 'portee_de_l_arme';
 
 
 -----------------------------------------------------------------------------

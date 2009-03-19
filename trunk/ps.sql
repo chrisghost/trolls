@@ -2,7 +2,7 @@ CREATE OR REPLACE FUNCTION hasard() RETURNS BOOLEAN AS $$
 DECLARE
     -- declarations
 BEGIN
-    RETURN random() >= 0.80;
+    RETURN random() <= 0.80;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -33,7 +33,7 @@ DECLARE
 	nb int;
 BEGIN
 
-	SELECT SUM(potion.bonusattaque) INTO nb FROM potion, sad WHERE sad.id_objet = potion.id_objet AND sad.nomtroll = n_troll AND potion.use = 1;
+	SELECT arme.bonusattaque INTO nb FROM arme, sad WHERE troll.id_equip_arme = arme.id_objet AND troll.nomtroll = n_troll ;
 	IF nb IS NULL THEN
 		nb := 0;
 	END IF;
@@ -48,7 +48,7 @@ DECLARE
 	nb int;
 BEGIN
 
-	SELECT SUM(potion.bonusdegat) INTO nb FROM potion, sad WHERE sad.id_objet = potion.id_objet AND sad.nomtroll = n_troll AND potion.use = 1;
+	SELECT arme.bonusdegat INTO nb FROM arme, sad WHERE troll.id_equip_arme = arme.id_objet AND troll.nomtroll = n_troll; 
 	IF nb IS NULL THEN
 		nb := 0;
 	END IF;
@@ -63,7 +63,7 @@ DECLARE
 	nb int;
 BEGIN
 
-	SELECT SUM(potion.bonusesquive) INTO nb FROM potion, sad WHERE sad.id_objet = potion.id_objet AND sad.nomtroll = n_troll AND potion.use = 1;
+	SELECT arme.bonusesquive INTO nb FROM  arme, sad WHERE troll.id_equip_arme = arme.id_objet AND troll.nomtroll = n_troll; 
 	IF nb IS NULL THEN
 		nb := 0;
 	END IF;
@@ -89,8 +89,6 @@ BEGIN
 	pts_att := pts_att * dé() + bonus_attaque(attaquant);
 	pts_esq := pts_esq * dé() + bonus_esquive(defenseur);
 	pts_deg := pts_deg * dé() + bonus_degats(attaquant);
-
-	RAISE NOTICE 'attaque de % contre esquive de %', pts_att, pts_esq;
 
 	IF pts_att > pts_esq THEN
 		UPDATE troll SET vie = troll.vie - pts_deg WHERE nom = defenseur;
@@ -128,6 +126,40 @@ BEGIN
 	END IF;
 
 	RETURN round(sqrt(x1*x1+y1*y1));
+
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION portee(varchar) RETURNS BOOLEAN AS $$
+DECLARE
+	troll_n ALIAS FOR $1;
+	troll2 varchar;
+BEGIN
+	SELECT nom INTO troll2 FROM troll WHERE nom != troll_n;
+	RETURN (distance(troll_n,troll2)<=(SELECT portee FROM arme, troll WHERE arme.id_objet = troll.id_equip_arme AND troll.nom = troll_n));
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION deplacement(varchar,integer,integer, integer) RETURNS BOOLEAN AS $$
+DECLARE
+	troll_n ALIAS FOR $1;
+	x_d ALIAS FOR $2;
+	y_d ALIAS FOR $3;
+	prix ALIAS FOR $4;
+	
+BEGIN
+	UPDATE troll SET pa = pa - prix WHERE nom = troll_n;
+	IF (hasard()) THEN
+		UPDATE troll SET x = x_d WHERE nom = troll_n;
+		UPDATE troll SET y = y_d WHERE nom = troll_n;
+		RETURN true;
+	ELSE
+		RETURN false;
+	END IF;
 
 END;
 $$ LANGUAGE plpgsql;
