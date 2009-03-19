@@ -102,3 +102,33 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+CREATE OR REPLACE FUNCTION distance(varchar,varchar) RETURNS INTEGER AS $$
+DECLARE
+	troll1 ALIAS FOR $1;
+	troll2 ALIAS FOR $2;
+	
+	x1 int;
+	y1 int;
+	x2 int;
+	y2 int;
+BEGIN
+	SELECT x INTO x1 FROM troll WHERE nom = troll1; 
+	SELECT y INTO y1 FROM troll WHERE nom = troll1;
+	SELECT x INTO x2 FROM troll WHERE nom = troll2;
+	SELECT y INTO y2 FROM troll WHERE nom = troll2;
+
+	x1 := x1 - x2;
+	y1 := y1 - y2;
+	IF x1 < 0 THEN
+		x1 := x1 * -1;
+	END IF;
+	IF y1 < 0 THEN
+		y1 := y1 * -1;
+	END IF;
+
+	RETURN round(sqrt(x1*x1+y1*y1));
+
+END;
+$$ LANGUAGE plpgsql;
+

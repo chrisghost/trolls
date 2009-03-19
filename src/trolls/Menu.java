@@ -80,8 +80,8 @@ public class Menu {
 		System.out.println(question);
 		System.out.println(">");
 		
-		String rep = null;
-		while(rep.equalsIgnoreCase(null))
+		String rep = "";
+		while(rep.equalsIgnoreCase(""))
 			rep = MoteurGraphique.lireChaine();
 
 		return rep;

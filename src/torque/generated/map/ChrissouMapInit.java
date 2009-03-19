@@ -16,5 +16,11 @@ public class ChrissouMapInit
         throws TorqueException
     {
         torque.generated.TrollPeer.getMapBuilder();
+        torque.generated.MapPeer.getMapBuilder();
+        torque.generated.CellPeer.getMapBuilder();
+        torque.generated.ObjetPeer.getMapBuilder();
+        torque.generated.ArmePeer.getMapBuilder();
+        torque.generated.PotionPeer.getMapBuilder();
+        torque.generated.SadPeer.getMapBuilder();
     }
 }

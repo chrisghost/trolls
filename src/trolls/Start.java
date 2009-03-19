@@ -13,6 +13,10 @@ public class Start {
 	public final static String TORQUE_PROPS = new String("torque-3.3/Torque.properties");
 
 	public static void main(String[] args) {
+		
+		try {
+			Torque.init(TORQUE_PROPS);
+
 //		Fonction principale du programme, contiendra l'appel au moteur graphique et au moteur de jeu.
 		
 //		Ce qui suit permet de tester les fonctionnalités implémentées pour le moment
@@ -31,7 +35,10 @@ public class Start {
 		
 //		if(ig.questionSimple("Ca marche?"))
 //			System.out.println("Yes!");
-		
+		} catch (TorqueException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

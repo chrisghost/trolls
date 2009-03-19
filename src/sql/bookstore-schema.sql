@@ -36,6 +36,26 @@ COMMENT ON COLUMN troll.id_equip_protect IS 'id de la protection Ã©quipÃ©e';
 
 
 -----------------------------------------------------------------------------
+-- map
+-----------------------------------------------------------------------------
+DROP TABLE map CASCADE;
+
+
+
+CREATE TABLE map
+(
+    x INTEGER NOT NULL,
+    y INTEGER NOT NULL,
+    PRIMARY KEY (x,y)
+);
+
+COMMENT ON TABLE map IS 'Infos sur la carte';
+
+COMMENT ON COLUMN map.x IS 'taille en x';
+COMMENT ON COLUMN map.y IS 'taille en y';
+
+
+-----------------------------------------------------------------------------
 -- cell
 -----------------------------------------------------------------------------
 DROP TABLE cell CASCADE;
@@ -81,10 +101,8 @@ COMMENT ON COLUMN objet.id IS 'id_de_l_objet';
 -- arme
 -----------------------------------------------------------------------------
 DROP TABLE arme CASCADE;
-DROP SEQUENCE arme_SEQ;
 
 
-CREATE SEQUENCE arme_SEQ INCREMENT BY 1 START WITH 1 NO MAXVALUE NO CYCLE;
 
 CREATE TABLE arme
 (
@@ -109,10 +127,8 @@ COMMENT ON COLUMN arme.bonusEsquive IS 'bonus_esquive_de_l_arme';
 -- potion
 -----------------------------------------------------------------------------
 DROP TABLE potion CASCADE;
-DROP SEQUENCE potion_SEQ;
 
 
-CREATE SEQUENCE potion_SEQ INCREMENT BY 1 START WITH 1 NO MAXVALUE NO CYCLE;
 
 CREATE TABLE potion
 (
@@ -167,6 +183,12 @@ COMMENT ON COLUMN sad.id_Objet IS 'id_objet';
 
 ----------------------------------------------------------------------
 -- troll
+----------------------------------------------------------------------
+
+
+
+----------------------------------------------------------------------
+-- map
 ----------------------------------------------------------------------
 
 
