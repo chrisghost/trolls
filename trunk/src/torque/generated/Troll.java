@@ -3,6 +3,9 @@ package torque.generated;
 
 import java.io.IOException;
 
+import org.apache.torque.Torque;
+import org.apache.torque.TorqueException;
+import org.apache.torque.oid.SequenceIdGenerator;
 import org.apache.torque.om.Persistent;
 
 import trolls.MoteurGraphique;
@@ -25,23 +28,29 @@ public  class Troll
     /** Serial version */
     private static final long serialVersionUID = 1237199820151L;
     
-    
-    
-   
-    
-    
     public void init(MoteurGraphique IG) {
-        this.setNom(IG.question("Nom du premier troll:"));
     	
-		boolean incomplet = true;
-		while (incomplet){
-			IG.afficher("Affectation des points de " + this.getNom());
-			this.setAttaque(IG.questionInt("Nombre de points d'attaque : "));
-			this.setDegats(IG.questionInt("Nombre de points de dégâts : "));
-			this.setEsquive(IG.questionInt("Nombre de points d'esquive : "));
-			this.setVie(IG.questionInt("Nombre de points de vie : "));
+    	try {
+	    	
+	        String nom = IG.question("Nom du troll:");
+	        this.setNom(nom);
+	        		
+			while ((this.getAttaque()+this.getDegats()+this.getEsquive()+this.getVie()) != 40){
+				IG.afficher("Affectation des points de " + this.getNom());
+				this.setAttaque(IG.questionInt("Nombre de points d'attaque : "));
+				this.setDegats(IG.questionInt("Nombre de points de dégâts : "));
+				this.setEsquive(IG.questionInt("Nombre de points d'esquive : "));
+				this.setVie(IG.questionInt("Nombre de points de vie : "));
+				
+				this.save();
+				
+				System.out.println(this.getAttaque()+this.getDegats()+this.getEsquive()+this.getVie());
+			}
 			
-			incomplet = (this.getAttaque()+this.getDegats()+this.getEsquive()+this.getVie()) != 40;
+		} catch (TorqueException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
     }
 }

@@ -22,8 +22,8 @@
  "http://db.apache.org/torque/dtd/database_3_3.dtd">
 
 <database
-  name="base5a03"
-  defaultIdMethod="native">
+  name="chrissou"
+  defaultIdMethod="none">
 
   <table name="troll" description="Troll_s_" idMethod="none">
     <column
@@ -88,6 +88,20 @@
       
   </table>
 
+  <table name="map" description="Infos sur la carte" idMethod="none">
+  	<column
+  		name="x"
+  		required="true"
+  		primaryKey="true"
+  		type="INTEGER"
+  		description="taille en x"/>
+   	<column
+  		name="y"
+  		required="true"
+  		primaryKey="true"
+  		type="INTEGER"
+  		description="taille en y"/>
+  </table>
 
 
  <table name="cell" description="Cell_s_" idMethod="none">
@@ -116,13 +130,14 @@
  
   </table>
   
-  <table name="objet" description="Objets">
+  <table name="objet" description="Objets" idMethod="native">
   	<column
   		name="id"
   		required="true"
   		primaryKey="true"
   		type="INTEGER"
-  		description="id_de_l_objet"/>
+  		description="id_de_l_objet"
+		autoIncrement="true"/>
   		
   		
   		
