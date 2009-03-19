@@ -2,11 +2,16 @@ package torque.generated;
 
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.torque.Torque;
 import org.apache.torque.TorqueException;
 import org.apache.torque.oid.SequenceIdGenerator;
 import org.apache.torque.om.Persistent;
+
+import com.workingdogs.village.DataSetException;
+import com.workingdogs.village.Record;
 
 import trolls.MoteurGraphique;
 
@@ -53,4 +58,33 @@ public  class Troll
 			e.printStackTrace();
 		}
     }
+    
+    public void update() throws TorqueException, DataSetException {
+		String SQL = "select * from troll where nom = '"+this.getNom()+"'";
+		List records = TrollPeer.executeQuery(SQL);
+		
+		for (Iterator i = records.iterator(); i.hasNext();) {
+		    Record record = (Record) i.next();
+//		     nom | attaque | degats | vie | esquive | pa | x | y | id_equip_arme | id_equip_protect 
+		    int nx = record.getValue("x").asInt();
+		    int ny = record.getValue("y").asInt();
+		    int natt = record.getValue("attaque").asInt();
+		    int nesq = record.getValue("esquive").asInt();
+		    int ndeg = record.getValue("degats").asInt();
+		    int nvie = record.getValue("vie").asInt();
+		    int npa = record.getValue("pa").asInt();
+		    int nIdEqAr = record.getValue("id_equip_arme").asInt();
+		    int nIdEqPr = record.getValue("id_equip_protect").asInt();
+			this.setX(nx);
+			this.setY(ny);
+			this.setAttaque(natt);
+			this.setEsquive(nesq);
+			this.setDegats(ndeg);
+			this.setVie(nvie);
+			this.setPa(npa);
+			this.setIdEquipArme(nIdEqAr);
+			this.setIdEquipProtect(nIdEqPr);
+		}
+		TrollPeer.doUpdate(this);
+	}
 }

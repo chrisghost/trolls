@@ -138,7 +138,13 @@
   		type="INTEGER"
   		description="id_de_l_objet"
 		autoIncrement="true"/>
-  		
+	
+	<column
+  		name="truc"
+  		required="true"
+  		type="VARCHAR"
+  		size="128"
+  		description="truc"/>
   		
   		
   </table>

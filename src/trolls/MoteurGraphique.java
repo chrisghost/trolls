@@ -2,6 +2,8 @@ package trolls;
 
 import java.util.Scanner;
 
+import org.apache.torque.TorqueException;
+
 import torque.generated.Map;
 import torque.generated.Troll;
 
@@ -25,6 +27,19 @@ public class MoteurGraphique {
 	}
 	public void affecterTroll2(Troll t2) {
 		this.vueTroll2 = new vueTroll(t2);
+	}
+	
+	public void afficherInventaireArme(Troll t) throws TorqueException {
+		if(t.getNom() == this.vueTroll1.getNom())//Troll1
+			this.vueTroll1.afficherInventaireArme();
+		else										// Troll2
+			this.vueTroll2.afficherInventaireArme();
+	}
+	public void afficherInventairePotion(Troll t) throws TorqueException {
+		if(t.getNom() == this.vueTroll1.getNom())//Troll1
+			this.vueTroll1.afficherInventairePotion();
+		else										// Troll2
+			this.vueTroll2.afficherInventairePotion();
 	}
 	
 	public void affecterMap(Map m) {

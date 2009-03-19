@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import org.apache.torque.Torque;
 import org.apache.torque.TorqueException;
+import org.apache.torque.util.Criteria;
 
 import com.workingdogs.village.DataSetException;
 import com.workingdogs.village.Record;
@@ -14,8 +15,12 @@ import com.workingdogs.village.Value;
 import torque.generated.BaseTrollPeer;
 import torque.generated.BaseMapPeer;
 import torque.generated.Map;
+import torque.generated.Potion;
+import torque.generated.PotionPeer;
 import torque.generated.Troll;
+import torque.generated.TrollPeer;
 
+import com.workingdogs.village.Record; 
 
 public class MoteurJeu {
 	
@@ -59,7 +64,6 @@ public class MoteurJeu {
 		this.carte = new Map();
 		this.carte.init(x,y,nb_obj);
 		IG.affecterMap(this.carte);
-		IG.afficherMap();
 		
 		
 		this.troll1 = new Troll();
@@ -69,15 +73,22 @@ public class MoteurJeu {
 		
 		this.troll2 = new Troll();
 		this.troll2.init(this.IG);
+		this.troll2.setX(carte.getX()-1);
+		this.troll2.setY(carte.getY()-1);
+		this.troll2.save();
+		
 		this.IG.affecterTroll2(this.troll2);
 		this.IG.afficheInfosTroll(troll2);
 		
+		
+		this.IG.afficherMap();
+
 		
 		this.IG.afficher("Préparation du jeu terminée, jouons!");
 		this.jeu();
 	}
 	
-	private void jeu() {
+	private void jeu() throws Exception {
 		this.IG.afficher("Début de partie");
 		
 		while(!this.fini()){
@@ -107,7 +118,7 @@ public class MoteurJeu {
 		return (this.troll1.getVie() == 0 || this.troll2.getVie() == 0);
 	}
 	
-	private void Tour(Troll troll){
+	private void Tour(Troll troll) throws Exception{
 		troll.setPa(6);
 		try {
 			troll.save();
@@ -122,8 +133,47 @@ public class MoteurJeu {
 				
 				if (test_action(r, troll)){
 					switch (r) {
-					case 1:
-
+					case 1: //Déplacement du troll
+						int x = this.IG.questionInt("Destination (X) ?");
+						int y = this.IG.questionInt("Destination (Y) ?");
+						
+						String SQL = "select deplacement('"+troll.getNom()+"',"+x+","+y+","+prix_action(r, troll)+")";
+						List records = TrollPeer.executeQuery(SQL);
+						
+						for (Iterator i = records.iterator(); i.hasNext();) {
+						    Record record = (Record) i.next();
+						    String a = record.getValue("deplacement").asString();
+						    System.out.println(a);
+						}
+						troll.update();
+						break;
+						
+					case 2 : //Attaque
+						
+						break;
+					case 3 : //Ramasser
+						
+						break;
+					case 4 : //Utiliser
+							this.IG.afficherInventairePotion(troll);
+							int potion = this.IG.questionInt("Quelle potion utiliser? (rentrer l'id");
+							Criteria c = new Criteria();
+							c.add("id_objet", potion);
+							Potion p = (Potion) PotionPeer.doSelect(c);
+							p.setUse(true);
+							
+							troll.setAttaque(troll.getAttaque()+p.getBonusattaque());
+							troll.setDegats(troll.getDegats()+p.getBonusdegat());
+							troll.setEsquive(troll.getEsquive()+p.getBonusesquive());
+							troll.setVie(troll.getVie()+p.getBonusvie());
+							troll.save();
+							
+							this.IG.afficheInfosTroll(troll);
+						break;
+					case 5 : //Equiper
+							this.IG.afficherInventaireArme(troll);
+							int arme = this.IG.questionInt("Quelle arme équiper? (rentrer l'id");
+							troll.setIdEquipArme(arme);
 						break;
 
 					default:
@@ -140,16 +190,9 @@ public class MoteurJeu {
 	private boolean test_action(int action, Troll t) {
 		switch (action) {
 		case 1:
-			if(t.getNom() == this.troll1.getNom()){
-				if (t.getX() == this.troll2.getX() && t.getY() == this.troll2.getY())
-					return t.getPa() >= 4;
-				return t.getPa() >= 1;
-			}else{
-				if (t.getX() == this.troll1.getX() && t.getY() == this.troll1.getY())
-					return t.getPa() >= 4;
-				return t.getPa() >= 1;
-			}
-			
+			if (this.troll1.getX() == this.troll2.getX() && this.troll1.getY() == this.troll2.getY())
+				return t.getPa() >= 4;
+			return t.getPa() >= 1;
 		case 2:
 			return t.getPa() >= 4;
 		case 3:
@@ -160,6 +203,25 @@ public class MoteurJeu {
 			return t.getPa() >= 2;
 		}
 		return false;
+	}
+	
+	private int prix_action(int action, Troll t) {
+		switch (action) {
+		case 1:
+			System.out.println(this.troll1.getX()+"=="+this.troll2.getX()+"&&"+ this.troll1.getY()+"=="+this.troll2.getY()+"?");
+			if (this.troll1.getX() == this.troll2.getX() && this.troll1.getY() == this.troll2.getY())
+					return 4;
+				return 1;
+		case 2:
+			return 4;
+		case 3:
+			return 1;
+		case 4:
+			return 1;
+		case 5:
+			return 2;
+		}
+		return 0;
 	}
 	
 }
