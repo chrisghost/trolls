@@ -101,6 +101,13 @@
   		primaryKey="true"
   		type="INTEGER"
   		description="taille en y"/>
+  		
+  	<column
+  		name="nom"
+  		required="true"
+  		type="VARCHAR"
+  		size="128"
+  		description="nom de la map"/>
   </table>
 
 
@@ -182,6 +189,11 @@
   		type="INTEGER"
   		description="bonus_esquive_de_l_arme"/>
   		
+  	 <column 
+  		name="portee"
+  		required="false"
+  		type="INTEGER"
+  		description="portee_de_l_arme"/>
   		
   		
     <foreign-key foreignTable="objet">
