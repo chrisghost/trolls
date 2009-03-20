@@ -41,6 +41,12 @@ public class MoteurGraphique {
 		else										// Troll2
 			this.vueTroll2.afficherInventairePotion();
 	}
+	public void afficherEquipement(Troll t) throws TorqueException {
+		if(t.getNom() == this.vueTroll1.getNom())//Troll1
+			this.vueTroll1.afficherEquipement();
+		else										// Troll2
+			this.vueTroll2.afficherEquipement();
+	}
 	
 	public void affecterMap(Map m) {
 		this.vueMap = new vueMap(m);

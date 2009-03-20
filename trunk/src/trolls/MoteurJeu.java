@@ -214,7 +214,20 @@ public class MoteurJeu {
 							int arme = this.IG.questionInt("Quelle arme équiper? (rentrer l'id");
 							troll.setIdEquipArme(arme);
 						break;
+					
+					case 6 :
+						this.IG.afficheInfosTroll(troll);
+						break;
 
+					case 7 :
+						this.IG.afficherEquipement(troll);
+						break;
+
+					case 8 :
+						this.IG.afficherInventaireArme(troll);
+						this.IG.afficherInventairePotion(troll);
+						break;
+						
 					default:
 						break;
 					}
@@ -241,7 +254,7 @@ public class MoteurJeu {
 		case 5:
 			return t.getPa() >= 2;
 		}
-		return false;
+		return true;
 	}
 	
 	private int prix_action(int action, Troll t) {

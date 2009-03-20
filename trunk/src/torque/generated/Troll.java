@@ -47,6 +47,23 @@ public  class Troll
 				this.setEsquive(IG.questionInt("Nombre de points d'esquive : "));
 				this.setVie(IG.questionInt("Nombre de points de vie : "));
 				
+				Objet o = new Objet();
+				o.setTruc("Pour eviter une erreur de Torque");
+				o.save();
+				Objet o2 = new Objet();
+				o2.setTruc("Pour eviter une erreur de Torque");
+				o2.save();
+				
+				Arme a = new Arme();
+				a.initAtt(o.getId());
+				a.save();
+
+				
+				Arme a2 = new Arme();
+				a2.initDef(o2.getId());
+				a2.save();
+				this.setIdEquipArme(o.getId());
+				this.setIdEquipProtect(o2.getId());
 				this.save();
 				
 				System.out.println(this.getAttaque()+this.getDegats()+this.getEsquive()+this.getVie());

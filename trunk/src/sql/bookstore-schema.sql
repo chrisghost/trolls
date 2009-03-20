@@ -116,6 +116,7 @@ CREATE TABLE arme
     bonusDegat INTEGER NOT NULL,
     bonusEsquive INTEGER NOT NULL,
     portee INTEGER,
+    type INTEGER,
     PRIMARY KEY (id_objet)
 );
 
@@ -127,6 +128,7 @@ COMMENT ON COLUMN arme.bonusAttaque IS 'bonus_attaque_de_l_arme';
 COMMENT ON COLUMN arme.bonusDegat IS 'bonus_degat_de_l_arme';
 COMMENT ON COLUMN arme.bonusEsquive IS 'bonus_esquive_de_l_arme';
 COMMENT ON COLUMN arme.portee IS 'portee_de_l_arme';
+COMMENT ON COLUMN arme.type IS 'type_de_l_arme';
 
 
 -----------------------------------------------------------------------------
