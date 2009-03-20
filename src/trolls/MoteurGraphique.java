@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import org.apache.torque.TorqueException;
 
+import com.workingdogs.village.DataSetException;
+
 import torque.generated.Map;
 import torque.generated.Troll;
 
@@ -41,7 +43,7 @@ public class MoteurGraphique {
 		else										// Troll2
 			this.vueTroll2.afficherInventairePotion();
 	}
-	public void afficherEquipement(Troll t) throws TorqueException {
+	public void afficherEquipement(Troll t) throws TorqueException, DataSetException {
 		if(t.getNom() == this.vueTroll1.getNom())//Troll1
 			this.vueTroll1.afficherEquipement();
 		else										// Troll2

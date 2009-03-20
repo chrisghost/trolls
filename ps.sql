@@ -171,7 +171,7 @@ BEGIN
 	UPDATE potion SET duree = duree - 1 WHERE use = 1;
 	
 	FOR pot IN
-		SELECT * FROM potion WHERE duree = 0
+		SELECT * FROM potion, sad WHERE duree = 0
 	LOOP
 		UPDATE troll SET attaque = attaque - pot.bonusattaque, degats = degats - pot.bonusdegat,
 			esquive = esquive - pot.bonusesquive WHERE troll.nom = sad.nomtroll AND sad.id_objet = pot.id_objet;
