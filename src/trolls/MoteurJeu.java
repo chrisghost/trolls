@@ -17,6 +17,7 @@ import torque.generated.BaseMapPeer;
 import torque.generated.Map;
 import torque.generated.Potion;
 import torque.generated.PotionPeer;
+import torque.generated.Sad;
 import torque.generated.Troll;
 import torque.generated.TrollPeer;
 
@@ -127,6 +128,10 @@ public class MoteurJeu {
 		}
 		if (troll.getVie() != 0){
 			this.IG.afficher("C'est à " + troll.getNom() + " de jouer");
+			
+			String SQL = "select maj_potions();";//Procédure stockée gérant la durée des potions
+			TrollPeer.executeQuery(SQL);//execution de la ps ci dessus
+			
 			this.IG.afficheInfosTroll(troll); //sa position, sa vie restante, son nombre de points d'action
 			while (troll.getPa()!=0){
 				int r = MoteurGraphique.menuTour();
@@ -137,7 +142,7 @@ public class MoteurJeu {
 						int x = this.IG.questionInt("Destination (X) ?");
 						int y = this.IG.questionInt("Destination (Y) ?");
 						
-						String SQL = "select deplacement('"+troll.getNom()+"',"+x+","+y+","+prix_action(r, troll)+")";
+						SQL = "select deplacement('"+troll.getNom()+"',"+x+","+y+","+prix_action(r, troll)+")";
 						List records = TrollPeer.executeQuery(SQL);
 						
 						for (Iterator i = records.iterator(); i.hasNext();) {
@@ -152,7 +157,19 @@ public class MoteurJeu {
 						
 						break;
 					case 3 : //Ramasser
-						
+						SQL = "select ramasser("+troll.getX()+","+troll.getY()+","+troll.getNom()+")";
+						List id = TrollPeer.executeQuery(SQL);
+						for (Iterator i = id.iterator(); i.hasNext();) {
+						    Record record = (Record) i.next();
+						    int a = record.getValue("ramasser").asInt();
+						    if(a != 0){
+						    	Sad nvO = new Sad();
+						    	nvO.setIdObjet(a);
+						    	nvO.setNomtroll(troll.getNom());
+						    	nvO.save();
+						    }else
+						    	this.IG.afficher("Aucun objet sur cette case!");
+						}
 						break;
 					case 4 : //Utiliser
 							this.IG.afficherInventairePotion(troll);
