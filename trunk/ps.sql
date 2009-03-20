@@ -164,3 +164,35 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION maj_potions() RETURNS VOID AS $$
+DECLARE
+pot potion%ROWTYPE;
+BEGIN
+	UPDATE potion SET duree = duree - 1 WHERE use = 1;
+	
+	FOR pot IN
+		SELECT * FROM potion WHERE duree = 0
+	LOOP
+		UPDATE troll SET attaque = attaque - pot.bonusattaque, degats = degats - pot.bonusdegat,
+			esquive = esquive - pot.bonusesquive WHERE troll.nom = sad.nomtroll AND sad.id_objet = pot.id_objet;
+	END LOOP;
+	
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION ramasser(integer,integer,varchar) RETURNS INTEGER AS $$
+DECLARE
+	r integer;
+BEGIN
+	UPDATE troll SET pa = pa - 1 WHERE nom = $3;
+	SELECT id_objet INTO r FROM cell WHERE x = $1 AND y = $2;
+	IF r IS NULL THEN
+		RETURN 0;
+	ELSE
+		RETURN r;
+	END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
