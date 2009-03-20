@@ -59,6 +59,9 @@ public class Menu {
 		System.out.println("* 3- Ramasser______________________________________________*");
 		System.out.println("* 4- Utiliser______________________________________________*");
 		System.out.println("* 5- Equiper_______________________________________________*");
+		System.out.println("* 6- Afficher infos troll__________________________________*");
+		System.out.println("* 7- Afficher equipement___________________________________*");
+		System.out.println("* 8- Affciher inventaire___________________________________*");
 		System.out.println("* 0- Quitter_______________________________________________*");
 		System.out.println("***** Trolls by Favre Pierre-Edouard && Maillol Adrien *****");
 		
