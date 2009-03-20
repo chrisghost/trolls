@@ -154,10 +154,32 @@ public class MoteurJeu {
 						break;
 						
 					case 2 : //Attaque
-						
+						SQL = "select portee("+troll.getNom()+")";//PS qui teste si les troll sont à portée
+						List rep = TrollPeer.executeQuery(SQL);
+						for (Iterator i = rep.iterator(); i.hasNext();) {
+						    Record record = (Record) i.next();
+						    boolean a = record.getValue("portee").asBoolean();
+						    if(a){// A portée!
+						    	if(troll.getNom() == this.troll1.getNom())
+						    		SQL = "select combat("+troll.getNom()+","+this.troll2.getNom()+")";//PS qui va effectuer le combat!
+						    	else
+						    		SQL = "select combat("+troll.getNom()+","+this.troll1.getNom()+")";//PS qui va effectuer le combat!
+						    	List combat = TrollPeer.executeQuery(SQL);
+								for (Iterator i2 = combat.iterator(); i.hasNext();) {
+								    Record record2 = (Record) i.next();
+								    int resultat = record.getValue("combat").asInt();
+								    if (resultat == -1)
+								    	this.IG.afficher("Attaque esquivée!");
+								    else
+								    	this.IG.afficher("Attaque réussie : "+ resultat+ " dégat(s) infligés");
+								}
+						    	
+						    }else
+						    	this.IG.afficher("Ton troll est trop loin!");
+						}
 						break;
 					case 3 : //Ramasser
-						SQL = "select ramasser("+troll.getX()+","+troll.getY()+","+troll.getNom()+")";
+						SQL = "select ramasser("+troll.getX()+","+troll.getY()+","+troll.getNom()+")";//PS qui teste si il y a un objet
 						List id = TrollPeer.executeQuery(SQL);
 						for (Iterator i = id.iterator(); i.hasNext();) {
 						    Record record = (Record) i.next();

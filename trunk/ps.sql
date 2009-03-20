@@ -33,7 +33,7 @@ DECLARE
 	nb int;
 BEGIN
 
-	SELECT arme.bonusattaque INTO nb FROM arme, sad WHERE troll.id_equip_arme = arme.id_objet AND troll.nomtroll = n_troll ;
+	SELECT arme.bonusattaque INTO nb FROM arme, sad, troll WHERE troll.id_equip_arme = arme.id_objet AND troll.nom = n_troll ;
 	IF nb IS NULL THEN
 		nb := 0;
 	END IF;
@@ -48,7 +48,7 @@ DECLARE
 	nb int;
 BEGIN
 
-	SELECT arme.bonusdegat INTO nb FROM arme, sad WHERE troll.id_equip_arme = arme.id_objet AND troll.nomtroll = n_troll; 
+	SELECT arme.bonusdegat INTO nb FROM arme, sad, troll WHERE troll.id_equip_arme = arme.id_objet AND troll.nom = n_troll; 
 	IF nb IS NULL THEN
 		nb := 0;
 	END IF;
@@ -63,7 +63,7 @@ DECLARE
 	nb int;
 BEGIN
 
-	SELECT arme.bonusesquive INTO nb FROM  arme, sad WHERE troll.id_equip_arme = arme.id_objet AND troll.nomtroll = n_troll; 
+	SELECT arme.bonusesquive INTO nb FROM  arme, sad, troll WHERE troll.id_equip_arme = arme.id_objet AND troll.nom = n_troll; 
 	IF nb IS NULL THEN
 		nb := 0;
 	END IF;
@@ -175,6 +175,8 @@ BEGIN
 	LOOP
 		UPDATE troll SET attaque = attaque - pot.bonusattaque, degats = degats - pot.bonusdegat,
 			esquive = esquive - pot.bonusesquive WHERE troll.nom = sad.nomtroll AND sad.id_objet = pot.id_objet;
+		DELETE FROM sad WHERE id_objet = pot.id_objet;
+		DELETE FROM potion WHERE id_objet = pot.id_objet;
 	END LOOP;
 	
 END;
