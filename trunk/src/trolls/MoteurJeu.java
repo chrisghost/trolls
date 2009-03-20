@@ -154,7 +154,7 @@ public class MoteurJeu {
 						break;
 						
 					case 2 : //Attaque
-						SQL = "select portee("+troll.getNom()+")";//PS qui teste si les troll sont à portée
+						SQL = "select portee('"+troll.getNom()+"')";//PS qui teste si les troll sont à portée
 						List rep = TrollPeer.executeQuery(SQL);
 						for (Iterator i = rep.iterator(); i.hasNext();) {
 						    Record record = (Record) i.next();
@@ -209,26 +209,31 @@ public class MoteurJeu {
 							
 							this.IG.afficheInfosTroll(troll);
 						break;
-					case 5 : //Equiper
+					case 5 :{ //Equiper
 							this.IG.afficherInventaireArme(troll);
 							int arme = this.IG.questionInt("Quelle arme équiper? (rentrer l'id");
 							troll.setIdEquipArme(arme);
-						break;
+						break;}
 					
-					case 6 :
+					case 6 :{
 						this.IG.afficheInfosTroll(troll);
-						break;
+						break;}
 
-					case 7 :
+					case 7 :{
 						this.IG.afficherEquipement(troll);
-						break;
+						break;}
 
-					case 8 :
+					case 8 :{
 						this.IG.afficherInventaireArme(troll);
 						this.IG.afficherInventairePotion(troll);
-						break;
+						break;}
+					
+					case 9 :{
+						this.IG.afficherMap();
+						break;}
 						
 					default:
+						this.IG.afficher("Rentrez un entier du menu");
 						break;
 					}
 				}
@@ -253,8 +258,9 @@ public class MoteurJeu {
 			return t.getPa() >= 1;
 		case 5:
 			return t.getPa() >= 2;
+		default:
+			return true;
 		}
-		return true;
 	}
 	
 	private int prix_action(int action, Troll t) {
@@ -272,8 +278,9 @@ public class MoteurJeu {
 			return 1;
 		case 5:
 			return 2;
+		default:
+			return 0;
 		}
-		return 0;
 	}
 	
 }
