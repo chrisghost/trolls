@@ -19,29 +19,17 @@ correctGetters =
     BaseBeans generated in package torque.generated.bean
     Maps generated in package torque.generated.map
 
-    Failed to create dir or dir already exists: /home/chrissou/Desktop/testtorque/src/torque/generated/
+    Failed to create dir or dir already exists: /users/info/etu-s4/favrepi/workspacejava/TestTorque/src/torque/generated/
 
-    Failed to create dir or dir already exists: /home/chrissou/Desktop/testtorque/src/torque/generated/
+    Failed to create dir or dir already exists: /users/info/etu-s4/favrepi/workspacejava/TestTorque/src/torque/generated/
 
-    Failed to create dir or dir already exists: /home/chrissou/Desktop/testtorque/src/torque/generated/map/
+    Failed to create dir or dir already exists: /users/info/etu-s4/favrepi/workspacejava/TestTorque/src/torque/generated/map/
 
 
 
     
 
         troll
-
-        
-
-        
-
-          
-
-
-          
-
-
-        map
 
         
 
@@ -120,6 +108,6 @@ correctGetters =
     
 
 ;
-    Failed to create dir or dir already exists: /home/chrissou/Desktop/testtorque/src/org/apache/torque/linkage/
+    Failed to create dir or dir already exists: /users/info/etu-s4/favrepi/workspacejava/TestTorque/src/org/apache/torque/linkage/
     
 

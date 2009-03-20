@@ -23,6 +23,7 @@ import torque.generated.TrollPeer;
 
 import com.workingdogs.village.Record; 
 
+
 public class MoteurJeu {
 	
 	MoteurGraphique IG;
@@ -236,6 +237,9 @@ public class MoteurJeu {
 						this.IG.afficher("Rentrez un entier du menu");
 						break;
 					}
+				} else {
+					this.IG.afficher("Il ne vous reste pas assez de points d'actions pour effectuer cette action");
+					
 				}
 				
 			}
