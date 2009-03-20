@@ -9,6 +9,7 @@ public class Menu {
 	public int MenuPrincipal() {
 		System.out.println("********************** Menu Principal **********************");
 		System.out.println("* 1- Lancer une partie_____________________________________*");
+		System.out.println("* 1- Lancer une partie_____________________________________*");
 		System.out.println("* 0- Quitter_______________________________________________*");
 		System.out.println("***** Trolls by Favre Pierre-Edouard && Maillol Adrien *****");
 		
@@ -68,7 +69,7 @@ public class Menu {
 		
 
 		int rep = -1;
-		while((rep!=1) && (rep!=2) && (rep!=3) && (rep!=4) && (rep!=5))
+		while((rep!=1) && (rep!=2) && (rep!=3) && (rep!=4) && (rep!=5) && (rep!=6) && (rep!=7) && (rep!=8) && (rep!=0))
 			rep = MoteurGraphique.lireInt();
 
 		return rep;

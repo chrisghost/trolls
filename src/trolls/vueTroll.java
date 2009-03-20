@@ -39,7 +39,7 @@ public class vueTroll {
 	}
 	
 	public void afficherInventaireArme() throws TorqueException {
-		System.out.println("***** Inventaire *****");
+		System.out.println("***** Inventaire Arme *****");
 		Criteria c = new Criteria();
 		c.add("nomtroll", troll.getNom());
 		List inventaire = SadPeer.doSelect(c);
@@ -54,7 +54,7 @@ public class vueTroll {
 		
 	}
 	public void afficherInventairePotion() throws TorqueException {
-		System.out.println("***** Inventaire *****");
+		System.out.println("***** Inventaire Potion *****");
 		Criteria c = new Criteria();
 		c.add("nomtroll", troll.getNom());
 		List inventaire = SadPeer.doSelect(c);
