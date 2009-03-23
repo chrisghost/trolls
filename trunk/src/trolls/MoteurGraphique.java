@@ -94,6 +94,8 @@ public class MoteurGraphique {
 	
 	public static int lireInt() {
 		Scanner sc = new Scanner(System.in);
+		while(!sc.hasNextInt())
+			sc = new Scanner(System.in);
 		return sc.nextInt();
 	}
 

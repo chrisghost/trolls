@@ -1,6 +1,4 @@
 CREATE OR REPLACE FUNCTION hasard() RETURNS BOOLEAN AS $$
-DECLARE
-    -- declarations
 BEGIN
     RETURN random() <= 0.80;
 END;
@@ -82,6 +80,7 @@ DECLARE
 	pts_esq int;
 	pts_deg int;
 BEGIN
+	UPDATE troll SET pa = pa - 4 WHERE nom = attaquant;
 	SELECT attaque INTO pts_att FROM troll WHERE troll.nom = attaquant;
 	SELECT esquive INTO pts_esq FROM troll WHERE troll.nom = defenseur;
 	SELECT degats INTO pts_deg FROM troll WHERE troll.nom = attaquant;
@@ -150,8 +149,19 @@ DECLARE
 	x_d ALIAS FOR $2;
 	y_d ALIAS FOR $3;
 	prix ALIAS FOR $4;
-	
+	x_o integer;
+	y_o integer;
+	x_m integer;
+	y_m integer;
+
 BEGIN
+	SELECT x INTO x_o FROM troll WHERE nom = troll_n;
+	SELECT y INTO y_o FROM troll WHERE nom = troll_n;
+	SELECT x INTO x_m FROM map;
+	SELECT y INTO y_m FROM map;
+	IF x_d < 0 OR x_d >= x_m OR y_d < 0 OR y_d >= y_m THEN
+		RETURN false;
+	END IF;
 	UPDATE troll SET pa = pa - prix WHERE nom = troll_n;
 	IF (hasard()) THEN
 		UPDATE troll SET x = x_d WHERE nom = troll_n;
@@ -167,14 +177,16 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION maj_potions() RETURNS VOID AS $$
 DECLARE
 pot potion%ROWTYPE;
+troll_n varchar;
 BEGIN
 	UPDATE potion SET duree = duree - 1 WHERE use = 1;
 	
 	FOR pot IN
-		SELECT * FROM potion, sad WHERE duree = 0
+		SELECT * FROM potion WHERE duree = 0
 	LOOP
+		SELECT nomtroll INTO troll_n FROM sad WHERE sad.id_objet = pot.id_objet;
 		UPDATE troll SET attaque = attaque - pot.bonusattaque, degats = degats - pot.bonusdegat,
-			esquive = esquive - pot.bonusesquive WHERE troll.nom = sad.nomtroll AND sad.id_objet = pot.id_objet;
+			esquive = esquive - pot.bonusesquive WHERE troll.nom = troll_n;
 		DELETE FROM sad WHERE id_objet = pot.id_objet;
 		DELETE FROM potion WHERE id_objet = pot.id_objet;
 	END LOOP;
@@ -192,9 +204,8 @@ BEGIN
 	IF r IS NULL THEN
 		RETURN 0;
 	ELSE
+		DELETE FROM cell where x = $1 AND y = $2;
 		RETURN r;
 	END IF;
 END;
 $$ LANGUAGE plpgsql;
-
-

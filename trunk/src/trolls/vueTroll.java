@@ -32,31 +32,33 @@ public class vueTroll {
 	
 	public void afficherInfos() {
 		System.out.println("***** "+this.troll.getNom()+" *****");
-		System.out.println("* Vie : "+ this.troll.getVie());
+		System.out.println("* Vie     : "+ this.troll.getVie());
 		System.out.println("* Attaque : "+ this.troll.getAttaque());
-		System.out.println("* Dégats : " + this.troll.getDegats());
+		System.out.println("* Dégats  : " + this.troll.getDegats());
 		System.out.println("* Esquive : "+ this.troll.getEsquive());
+		System.out.println("* PA      : "+ this.troll.getPa());
 	}
 	
 	public void afficherInventaireArme() throws TorqueException {
 		System.out.println("***** Inventaire Arme *****");
 		Criteria c = new Criteria();
-		c.add("nomtroll", troll.getNom());
+		c.add(SadPeer.NOMTROLL, this.troll.getNom());
 		List inventaire = SadPeer.doSelect(c);
 		
-		Iterator i = inventaire.iterator();
-		while (i.hasNext())
+		int i = 0;
+		while (i<inventaire.size())
 		{
-			Object obj = (Object) i.next();
+			Object obj = (Object) inventaire.get(i);
 			if (obj instanceof Arme)
 				((Arme) obj).afficher();
+			i++;
 		}
 		
 	}
 	public void afficherInventairePotion() throws TorqueException {
 		System.out.println("***** Inventaire Potion *****");
 		Criteria c = new Criteria();
-		c.add("nomtroll", troll.getNom());
+		c.add(SadPeer.NOMTROLL, this.troll.getNom());
 		List inventaire = SadPeer.doSelect(c);
 		
 		Iterator i = inventaire.iterator();
@@ -71,27 +73,14 @@ public class vueTroll {
 	
 	public void afficherEquipement() throws TorqueException, DataSetException {
 		System.out.println("***** Equipement *****");
-		Criteria c = new Criteria();
-		c.add("nomtroll", troll.getNom());
-		List equipement = TrollPeer.doSelect(c);
-		
-		Iterator i = equipement.iterator();
-		while (i.hasNext())
-		{
-		    Record record = (Record) i.next();
-		    int a = record.getValue("id_equip_arme").asInt();
-		    int p = record.getValue("id_equip_protect").asInt();
-			Criteria c2 = new Criteria();
-			c.add("id_objet", a);
-			c.add("id_objet", p);
-			List equipement2 = ArmePeer.doSelect(c);
-			Iterator i2 = equipement.iterator();
-			while (i2.hasNext())
-			{
-				Arme arme = (Arme) i.next();
-				arme.afficher();
-			}
-		}
+//		Criteria c = new Criteria();
+//		c.add("nomtroll", );
+//		Troll equipement = TrollPeer.retrieveByPK(this.troll.getNom());
+
+//		c.add("id_objet", a);
+//		c.add("id_objet", p);
+		ArmePeer.retrieveByPK(this.troll.getIdEquipArme()).afficher();
+		ArmePeer.retrieveByPK(this.troll.getIdEquipProtect()).afficher();
 	}
 
 }

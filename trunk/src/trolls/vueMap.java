@@ -22,7 +22,7 @@ public class vueMap {
 	
 	public void afficherMap() {
 		String map = "";
-		map = map + this.map.getX() + ":" + this.map.getY() + "\n";
+//		map = map + this.map.getX() + ":" + this.map.getY() + "\n";
 		
 		Criteria crit = new Criteria();
 		crit.addAscendingOrderByColumn(CellPeer.X);
@@ -54,24 +54,26 @@ public class vueMap {
 			}
 			map = map + "+\n";
 			for(int j=0; j<this.map.getX();j++){
-				if(c.getX() == i && c.getY() == j){
+				if(c.getX() == j && c.getY() == i){
 					
-					if(t.getX() == i && t.getY() == j){
+					if(t.getX() == j && t.getY() == i){
 						map = map + "|#";
 						if(itT.hasNext())
 							t = (Troll) itT.next();
 					}else
 						map = map + "|O";
-					if(!itC.hasNext())
-						System.out.println("plus d'objets");
-					else
+					if(itC.hasNext())
 						c = (Cell) itC.next();
 					
-				}else if(t.getX() == i && t.getY() == j){
-					map = map + "|T";
+				}else if(t.getX() == j && t.getY() == i){
 					if(itT.hasNext()){
 						t = (Troll) itT.next();
-						System.out.println("next troll >"+t.getX()+":"+t.getY());}
+						if(t.getX() == j && t.getY() == i)
+							map = map + "|X";
+						else
+							map = map + "|T";
+					}else
+						map = map + "|T";
 				}else
 					map = map + "| ";
 			}
