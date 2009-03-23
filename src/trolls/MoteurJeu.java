@@ -12,12 +12,15 @@ import com.workingdogs.village.DataSetException;
 import com.workingdogs.village.Record;
 import com.workingdogs.village.Value;
 
+import torque.generated.ArmePeer;
 import torque.generated.BaseTrollPeer;
 import torque.generated.BaseMapPeer;
 import torque.generated.Map;
+import torque.generated.ObjetPeer;
 import torque.generated.Potion;
 import torque.generated.PotionPeer;
 import torque.generated.Sad;
+import torque.generated.SadPeer;
 import torque.generated.Troll;
 import torque.generated.TrollPeer;
 
@@ -102,7 +105,8 @@ public class MoteurJeu {
 				this.Tour(troll2);
 				this.Tour(troll1);	
 			}
-			this.IG.questionSimple("Passer au tour suivant?");
+//			while(!this.IG.questionSimple("Passer au tour suivant?"))
+//				;
 		}
 		
 		
@@ -116,8 +120,14 @@ public class MoteurJeu {
 		}
 	}
 	
-	private boolean fini(){
-		return (this.troll1.getVie() == 0 || this.troll2.getVie() == 0);
+	private boolean fini() throws DataSetException, TorqueException{
+		String SQL = "select fini();";//Procédure stockée gérant la durée des potions
+		List records = TrollPeer.executeQuery(SQL);
+		
+		Iterator i = records.iterator();
+	    Record record = (Record) i.next();
+	    String a = record.getValue("fini").asString();
+	    return a.equals("true");
 	}
 	
 	private void Tour(Troll troll) throws Exception{
@@ -134,53 +144,73 @@ public class MoteurJeu {
 			TrollPeer.executeQuery(SQL);//execution de la ps ci dessus
 			
 			this.IG.afficheInfosTroll(troll); //sa position, sa vie restante, son nombre de points d'action
-			while (troll.getPa()!=0){
+			while (troll.getPa()!=0 && !fini()){
+				troll.save();
+				this.IG.afficherMap();
 				int r = MoteurGraphique.menuTour();
 				
 				if (test_action(r, troll)){
 					switch (r) {
-					case 1: //Déplacement du troll
-						int x = this.IG.questionInt("Destination (X) ?");
-						int y = this.IG.questionInt("Destination (Y) ?");
-						
+					case 1: {//Déplacement du troll
+						String rep = this.IG.question("Destination (d,g,h,b) ?");
+						int x=0;
+						int y=0;
+
+						if (rep.equalsIgnoreCase("d")){
+							x =	troll.getX()+1;
+							y =	troll.getY();
+						}
+						else if (rep.equalsIgnoreCase("g")){
+							x =	troll.getX()-1;
+							y =	troll.getY();
+						}
+						else if (rep.equalsIgnoreCase("h")){
+							x =	troll.getX();
+							y =	troll.getY()-1;
+						}
+						else if (rep.equalsIgnoreCase("b")){
+							x =	troll.getX();
+							y =	troll.getY()+1;
+						}
 						SQL = "select deplacement('"+troll.getNom()+"',"+x+","+y+","+prix_action(r, troll)+")";
 						List records = TrollPeer.executeQuery(SQL);
 						
-						for (Iterator i = records.iterator(); i.hasNext();) {
-						    Record record = (Record) i.next();
-						    String a = record.getValue("deplacement").asString();
-						    System.out.println(a);
-						}
+						Iterator i = records.iterator();
+					    Record record = (Record) i.next();
+					    String a = record.getValue("deplacement").asString();
+					    if(a.equals("true"))
+					    	this.IG.afficher("Déplacement réussi");
+					    else
+					    	this.IG.afficher("Déplacement échoué");
 						troll.update();
-						break;
+						break;}
 						
-					case 2 : //Attaque
+					case 2 : {//Attaque
 						SQL = "select portee('"+troll.getNom()+"')";//PS qui teste si les troll sont à portée
-						List rep = TrollPeer.executeQuery(SQL);
-						for (Iterator i = rep.iterator(); i.hasNext();) {
+						List rep1 = TrollPeer.executeQuery(SQL);
+						for (Iterator i = rep1.iterator(); i.hasNext();) {
 						    Record record = (Record) i.next();
 						    boolean a = record.getValue("portee").asBoolean();
 						    if(a){// A portée!
 						    	if(troll.getNom() == this.troll1.getNom())
-						    		SQL = "select combat("+troll.getNom()+","+this.troll2.getNom()+")";//PS qui va effectuer le combat!
+						    		SQL = "select combat('"+troll.getNom()+"','"+this.troll2.getNom()+"')";//PS qui va effectuer le combat!
 						    	else
-						    		SQL = "select combat("+troll.getNom()+","+this.troll1.getNom()+")";//PS qui va effectuer le combat!
+						    		SQL = "select combat('"+troll.getNom()+"','"+this.troll1.getNom()+"')";//PS qui va effectuer le combat!
 						    	List combat = TrollPeer.executeQuery(SQL);
-								for (Iterator i2 = combat.iterator(); i.hasNext();) {
-								    Record record2 = (Record) i.next();
-								    int resultat = record.getValue("combat").asInt();
-								    if (resultat == -1)
-								    	this.IG.afficher("Attaque esquivée!");
-								    else
-								    	this.IG.afficher("Attaque réussie : "+ resultat+ " dégat(s) infligés");
-								}
+								Iterator i2 = combat.iterator();
+							    Record record2 = (Record) i2.next();
+							    int resultat = record2.getValue("combat").asInt();
+							    if (resultat == -1)
+							    	this.IG.afficher("Attaque esquivée!");
+							    else
+							    	this.IG.afficher("Attaque réussie : "+ resultat+ " dégat(s) infligés");
 						    	
 						    }else
 						    	this.IG.afficher("Ton troll est trop loin!");
 						}
-						break;
-					case 3 : //Ramasser
-						SQL = "select ramasser("+troll.getX()+","+troll.getY()+","+troll.getNom()+")";//PS qui teste si il y a un objet
+						break;}
+					case 3 : {//Ramasser
+						SQL = "select ramasser("+troll.getX()+","+troll.getY()+",'"+troll.getNom()+"')";//PS qui teste si il y a un objet
 						List id = TrollPeer.executeQuery(SQL);
 						for (Iterator i = id.iterator(); i.hasNext();) {
 						    Record record = (Record) i.next();
@@ -190,11 +220,16 @@ public class MoteurJeu {
 						    	nvO.setIdObjet(a);
 						    	nvO.setNomtroll(troll.getNom());
 						    	nvO.save();
+						    	this.IG.afficher("Vous avez ramassé :");
+						    	if(ObjetPeer.retrieveByPK(a).getType().equalsIgnoreCase("arme"))
+						    		ArmePeer.retrieveByPK(a).afficher();
+						    	else if(ObjetPeer.retrieveByPK(a).getType().equalsIgnoreCase("potion"))
+						    		PotionPeer.retrieveByPK(a).afficher();
 						    }else
 						    	this.IG.afficher("Aucun objet sur cette case!");
 						}
-						break;
-					case 4 : //Utiliser
+						break;}
+					case 4 :{ //Utiliser
 							this.IG.afficherInventairePotion(troll);
 							int potion = this.IG.questionInt("Quelle potion utiliser? (rentrer l'id");
 							Criteria c = new Criteria();
@@ -209,11 +244,14 @@ public class MoteurJeu {
 							troll.save();
 							
 							this.IG.afficheInfosTroll(troll);
-						break;
+						break;}
 					case 5 :{ //Equiper
 							this.IG.afficherInventaireArme(troll);
-							int arme = this.IG.questionInt("Quelle arme équiper? (rentrer l'id");
-							troll.setIdEquipArme(arme);
+							int arme = this.IG.questionInt("Quelle arme équiper? (rentrer l'id)");
+							if(SadPeer.retrieveByPK(troll.getNom(), arme).toString() != null)
+								troll.setIdEquipArme(arme);
+							else
+								this.IG.afficher("Impossible d'équiper cette arme");
 						break;}
 					
 					case 6 :{
@@ -232,6 +270,11 @@ public class MoteurJeu {
 					case 9 :{
 						this.IG.afficherMap();
 						break;}
+					
+					case 10 :{
+						troll.setPa(0);
+						troll.save();
+						break;}
 						
 					default:
 						this.IG.afficher("Rentrez un entier du menu");
@@ -241,7 +284,8 @@ public class MoteurJeu {
 					this.IG.afficher("Il ne vous reste pas assez de points d'actions pour effectuer cette action");
 					
 				}
-				
+				this.troll1.update();
+				this.troll2.update();
 			}
 			
 		}
@@ -270,7 +314,6 @@ public class MoteurJeu {
 	private int prix_action(int action, Troll t) {
 		switch (action) {
 		case 1:
-			System.out.println(this.troll1.getX()+"=="+this.troll2.getX()+"&&"+ this.troll1.getY()+"=="+this.troll2.getY()+"?");
 			if (this.troll1.getX() == this.troll2.getX() && this.troll1.getY() == this.troll2.getY())
 					return 4;
 				return 1;

@@ -40,18 +40,18 @@ public  class Troll
 	        String nom = IG.question("Nom du troll:");
 	        this.setNom(nom);
 	        		
-			while ((this.getAttaque()+this.getDegats()+this.getEsquive()+this.getVie()) != 40){
+			while ((this.getAttaque()+this.getDegats()+this.getEsquive()+this.getVie()/10) != 40){
 				IG.afficher("Affectation des points de " + this.getNom());
 				this.setAttaque(IG.questionInt("Nombre de points d'attaque : "));
 				this.setDegats(IG.questionInt("Nombre de points de dégâts : "));
 				this.setEsquive(IG.questionInt("Nombre de points d'esquive : "));
-				this.setVie(IG.questionInt("Nombre de points de vie : "));
+				this.setVie(IG.questionInt("Nombre de points de vie : ")*10);
 				
 				Objet o = new Objet();
-				o.setTruc("Pour eviter une erreur de Torque");
+				o.setType("arme");
 				o.save();
 				Objet o2 = new Objet();
-				o2.setTruc("Pour eviter une erreur de Torque");
+				o2.setType("arme");;
 				o2.save();
 				
 				Arme a = new Arme();
@@ -66,7 +66,7 @@ public  class Troll
 				this.setIdEquipProtect(o2.getId());
 				this.save();
 				
-				System.out.println(this.getAttaque()+this.getDegats()+this.getEsquive()+this.getVie());
+//				System.out.println(this.getAttaque()+this.getDegats()+this.getEsquive()+this.getVie());
 			}
 			
 		} catch (TorqueException e) {
