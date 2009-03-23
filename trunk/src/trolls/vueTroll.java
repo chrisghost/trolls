@@ -58,7 +58,7 @@ public class vueTroll {
 	public void afficherInventairePotion() throws TorqueException {
 		System.out.println("***** Inventaire Potion *****");
 		Criteria c = new Criteria();
-		c.add(SadPeer.NOMTROLL, this.troll.getNom());
+		c.add(SadPeer.NOMTROLL, "'"+this.troll.getNom()+"'");
 		List inventaire = SadPeer.doSelect(c);
 		
 		Iterator i = inventaire.iterator();
