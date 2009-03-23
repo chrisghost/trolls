@@ -91,14 +91,14 @@ CREATE SEQUENCE objet_SEQ INCREMENT BY 1 START WITH 1 NO MAXVALUE NO CYCLE;
 CREATE TABLE objet
 (
     id INTEGER NOT NULL,
-    type VARCHAR(128) NOT NULL,
+    truc VARCHAR(128) NOT NULL,
     PRIMARY KEY (id)
 );
 
 COMMENT ON TABLE objet IS 'Objets';
 
 COMMENT ON COLUMN objet.id IS 'id_de_l_objet';
-COMMENT ON COLUMN objet.type IS 'type';
+COMMENT ON COLUMN objet.truc IS 'truc';
 
 
 -----------------------------------------------------------------------------
@@ -116,7 +116,6 @@ CREATE TABLE arme
     bonusDegat INTEGER NOT NULL,
     bonusEsquive INTEGER NOT NULL,
     portee INTEGER,
-    type INTEGER,
     PRIMARY KEY (id_objet)
 );
 
@@ -128,7 +127,6 @@ COMMENT ON COLUMN arme.bonusAttaque IS 'bonus_attaque_de_l_arme';
 COMMENT ON COLUMN arme.bonusDegat IS 'bonus_degat_de_l_arme';
 COMMENT ON COLUMN arme.bonusEsquive IS 'bonus_esquive_de_l_arme';
 COMMENT ON COLUMN arme.portee IS 'portee_de_l_arme';
-COMMENT ON COLUMN arme.type IS 'type_de_l_arme';
 
 
 -----------------------------------------------------------------------------
