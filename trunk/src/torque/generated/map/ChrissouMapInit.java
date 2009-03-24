@@ -21,6 +21,7 @@ public class ChrissouMapInit
         torque.generated.ObjetPeer.getMapBuilder();
         torque.generated.ArmePeer.getMapBuilder();
         torque.generated.PotionPeer.getMapBuilder();
+        torque.generated.SortPeer.getMapBuilder();
         torque.generated.SadPeer.getMapBuilder();
     }
 }

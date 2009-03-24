@@ -91,14 +91,14 @@ CREATE SEQUENCE objet_SEQ INCREMENT BY 1 START WITH 1 NO MAXVALUE NO CYCLE;
 CREATE TABLE objet
 (
     id INTEGER NOT NULL,
-    truc VARCHAR(128) NOT NULL,
+    type VARCHAR(128) NOT NULL,
     PRIMARY KEY (id)
 );
 
 COMMENT ON TABLE objet IS 'Objets';
 
 COMMENT ON COLUMN objet.id IS 'id_de_l_objet';
-COMMENT ON COLUMN objet.truc IS 'truc';
+COMMENT ON COLUMN objet.type IS 'type';
 
 
 -----------------------------------------------------------------------------
@@ -116,6 +116,7 @@ CREATE TABLE arme
     bonusDegat INTEGER NOT NULL,
     bonusEsquive INTEGER NOT NULL,
     portee INTEGER,
+    type INTEGER,
     PRIMARY KEY (id_objet)
 );
 
@@ -127,6 +128,7 @@ COMMENT ON COLUMN arme.bonusAttaque IS 'bonus_attaque_de_l_arme';
 COMMENT ON COLUMN arme.bonusDegat IS 'bonus_degat_de_l_arme';
 COMMENT ON COLUMN arme.bonusEsquive IS 'bonus_esquive_de_l_arme';
 COMMENT ON COLUMN arme.portee IS 'portee_de_l_arme';
+COMMENT ON COLUMN arme.type IS 'type_de_l_arme';
 
 
 -----------------------------------------------------------------------------
@@ -159,6 +161,28 @@ COMMENT ON COLUMN potion.bonusEsquive IS 'bonus_esquive_de_la_potion';
 COMMENT ON COLUMN potion.bonusVie IS 'bonus_vie_de_la_potion';
 COMMENT ON COLUMN potion.duree IS 'duree_de_la_potion';
 COMMENT ON COLUMN potion.use IS 'Si vrai, potion utilisÃ©e Ã  l'instant t';
+
+
+-----------------------------------------------------------------------------
+-- sort
+-----------------------------------------------------------------------------
+DROP TABLE sort CASCADE;
+
+
+
+CREATE TABLE sort
+(
+    id_objet INTEGER NOT NULL,
+    nom VARCHAR(128) NOT NULL,
+    degats INTEGER NOT NULL,
+    PRIMARY KEY (id_objet)
+);
+
+COMMENT ON TABLE sort IS 'Sorts';
+
+COMMENT ON COLUMN sort.id_objet IS 'identifiant_objet_du_sort';
+COMMENT ON COLUMN sort.nom IS 'nom_du_sort';
+COMMENT ON COLUMN sort.degats IS 'degats du sort';
 
 
 -----------------------------------------------------------------------------
@@ -231,6 +255,16 @@ ALTER TABLE potion
 
 ----------------------------------------------------------------------
 -- potion
+----------------------------------------------------------------------
+
+
+ALTER TABLE sort
+    ADD CONSTRAINT sort_FK_1 FOREIGN KEY (id_objet)
+    REFERENCES objet (id)
+;
+
+----------------------------------------------------------------------
+-- sort
 ----------------------------------------------------------------------
 
 

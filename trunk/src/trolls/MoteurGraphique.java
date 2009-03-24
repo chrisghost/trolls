@@ -37,7 +37,7 @@ public class MoteurGraphique {
 		else										// Troll2
 			this.vueTroll2.afficherInventaireArme();
 	}
-	public void afficherInventairePotion(Troll t) throws TorqueException {
+	public void afficherInventairePotion(Troll t) throws TorqueException, DataSetException {
 		if(t.getNom() == this.vueTroll1.getNom())//Troll1
 			this.vueTroll1.afficherInventairePotion();
 		else										// Troll2

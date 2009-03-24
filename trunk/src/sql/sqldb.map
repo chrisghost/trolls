@@ -1,4 +1,4 @@
 #Sqlfile -> Database map
-#Mon Mar 23 10:46:25 CET 2009
+#Tue Mar 24 08:43:59 CET 2009
 bookstore-schema.sql=chrissou
 id-table-schema.sql=@DATABASE_DEFAULT@

@@ -22,58 +22,47 @@ public  class Potion
     /** Serial version */
     private static final long serialVersionUID = 1237384486901L;
     public void init(int id_objet) {
-//		 | nom | bonusattaque | bonusdegat | bonusesquive 
-//        <table name="potion" description="Potions">
 
-//      		
-//      	  <column 
-//      		name="bonusVie"
-//      		required="true"
-//      		type="INTEGER"
-//      		description="bonus_vie_de_la_potion"/>
-//      		
-//      	<column 
-//      		name="duree"
-//      		required="true"
-//      		type="INTEGER"
-//      		description="duree_de_la_potion"/>  		
-//    	
-//    	<column name="use"
-//    		type="BOOLEANINT"
-//    		description="Si vrai, potion utilisÃ©e Ã  l'instant t" />  		
-//      		
-//        <foreign-key foreignTable="objet">
-//          <reference local="id_objet" foreign="id"/>
-//        </foreign-key>
-      
 			try {
 				this.setIdObjet(id_objet);
 
 			switch ((int) Math.round(( Math.random()*( 3)))) {
 			case 0:
 				this.setBonusattaque(Map.hasard()/10);
+				this.setBonusdegat(0);
+				this.setBonusesquive(0);
+				this.setBonusvie(0);
 				this.setNom("Potion d'attaque");
 				break;
 				
 			case 1:
+				this.setBonusattaque(0);
 				this.setBonusdegat(Map.hasard()/10);
+				this.setBonusesquive(0);
+				this.setBonusvie(0);
 				this.setNom("Potion de puissance");
 				break;
 			case 2:
+				this.setBonusattaque(0);
 				this.setBonusesquive(Map.hasard()/10);
+				this.setBonusdegat(0);
 				this.setNom("Potion de rapidité");
 				break;
 			case 3:
+				this.setBonusattaque(0);
 				this.setBonusvie(Map.hasard()/5);
+				this.setBonusesquive(0);
+				this.setBonusdegat(0);
 				this.setNom("Potion de santé");
 				break;
 			}
 			
+			this.setDuree(Map.hasard()/10);
+			this.setUse(false);
 			
 			} catch (TorqueException e) {
 				e.printStackTrace();
 			}
-		System.out.println(this.getNom());
    	
 	}
     
@@ -86,20 +75,8 @@ public  class Potion
 		System.out.println("* Durée : "+ this.getDuree());
 		System.out.print("* Utilisée : ");
 		if (this.getUse() == true)
-			System.out.print("Oui");
+			System.out.println("Oui");
 		else
-			System.out.print("Non");
+			System.out.println("Non");
 	}
-   
-//   public static String gen_nom() {
-//		String a[] = {"Hache ","Marteau ", "Epée ", "Coupe ongle "};
-//		String b[] = {"de la mort","du roi maudit","des plaines maléfiques", "en carton"};
-//		
-//		int intA = (int) Math.round(( Math.random()*( 3)));
-//		int intB = (int) Math.round(( Math.random()*( 3)));
-//		
-//		System.out.println("Nombre trouvés = " + intA + " et " + intB);
-//		
-//		return a[intA]+b[intB];
-//	}
 }
