@@ -104,4 +104,8 @@ public  class Troll
 		}
 		TrollPeer.doUpdate(this);
 	}
+
+	public void enleverVie(int degats) {
+		this.setVie(this.getVie()-degats);
+	}
 }

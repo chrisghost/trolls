@@ -12,9 +12,12 @@ import com.workingdogs.village.Record;
 import torque.generated.Arme;
 import torque.generated.ArmePeer;
 import torque.generated.Objet;
+import torque.generated.ObjetPeer;
 import torque.generated.Potion;
+import torque.generated.PotionPeer;
 import torque.generated.Sad;
 import torque.generated.SadPeer;
+import torque.generated.SortPeer;
 import torque.generated.Troll;
 import torque.generated.TrollPeer;
 
@@ -37,6 +40,8 @@ public class vueTroll {
 		System.out.println("* Dégats  : " + this.troll.getDegats());
 		System.out.println("* Esquive : "+ this.troll.getEsquive());
 		System.out.println("* PA      : "+ this.troll.getPa());
+		System.out.println("* X       : "+ (this.troll.getX()+1));
+		System.out.println("* Y       : "+ (this.troll.getY()+1));
 	}
 	
 	public void afficherInventaireArme() throws TorqueException {
@@ -45,28 +50,37 @@ public class vueTroll {
 		c.add(SadPeer.NOMTROLL, this.troll.getNom());
 		List inventaire = SadPeer.doSelect(c);
 		
-		int i = 0;
-		while (i<inventaire.size())
+		Iterator i = inventaire.iterator();
+		while (i.hasNext())
 		{
-			Object obj = (Object) inventaire.get(i);
-			if (obj instanceof Arme)
-				((Arme) obj).afficher();
-			i++;
+			Sad record = (Sad) i.next();
+			int a = record.getIdObjet();
+			
+			Objet obj = ObjetPeer.retrieveByPK(a);
+			
+			if (obj.getType().equalsIgnoreCase("arme"))
+				ArmePeer.retrieveByPK(a).afficher();
 		}
 		
 	}
-	public void afficherInventairePotion() throws TorqueException {
-		System.out.println("***** Inventaire Potion *****");
+	public void afficherInventairePotion() throws TorqueException, DataSetException {
+		System.out.println("***** Inventaire Potion & Sorts *****");
 		Criteria c = new Criteria();
-		c.add(SadPeer.NOMTROLL, "'"+this.troll.getNom()+"'");
+		c.add(SadPeer.NOMTROLL, this.troll.getNom());
 		List inventaire = SadPeer.doSelect(c);
 		
 		Iterator i = inventaire.iterator();
 		while (i.hasNext())
 		{
-			Object obj = (Object) i.next();
-			if (obj instanceof Potion)
-				((Potion) obj).afficher();
+			Sad record = (Sad) i.next();
+			int a = record.getIdObjet();
+			
+			Objet obj = ObjetPeer.retrieveByPK(a);
+			
+			if (obj.getType().equalsIgnoreCase("potion"))
+				PotionPeer.retrieveByPK(a).afficher();
+			else if (obj.getType().equalsIgnoreCase("sort"))
+				SortPeer.retrieveByPK(a).afficher();
 		}
 		
 	}

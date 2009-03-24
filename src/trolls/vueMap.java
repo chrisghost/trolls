@@ -22,15 +22,14 @@ public class vueMap {
 	
 	public void afficherMap() {
 		String map = "";
-//		map = map + this.map.getX() + ":" + this.map.getY() + "\n";
 		
 		Criteria crit = new Criteria();
-		crit.addAscendingOrderByColumn(CellPeer.X);
 		crit.addAscendingOrderByColumn(CellPeer.Y);
+		crit.addAscendingOrderByColumn(CellPeer.X);
 		
 		Criteria critTroll = new Criteria();
-		critTroll.addAscendingOrderByColumn(TrollPeer.X);
 		critTroll.addAscendingOrderByColumn(TrollPeer.Y);
+		critTroll.addAscendingOrderByColumn(TrollPeer.X);
 		
 		Iterator itC = null;
 		Iterator itT = null;
@@ -45,44 +44,68 @@ public class vueMap {
 			e.printStackTrace();
 		}
 		
-
+		map = map + " ";
+		for(int j=0; j<this.map.getX();j++){
+			map = map + " "+(j+1);
+		}
+		map = map + "\n";
+		
 		Cell c = (Cell) itC.next();
 		Troll t = (Troll) itT.next();
 		for(int i=0; i<this.map.getY();i++){
-			for(int j=0; j<this.map.getX();j++){
+			map = map + " ";
+			for(int j=0; j<this.map.getX();j++){//lignes de séparation
 				map = map + "+-";
 			}
 			map = map + "+\n";
+			map = map + (i+1);
 			for(int j=0; j<this.map.getX();j++){
+				int o = 0;
 				if(c.getX() == j && c.getY() == i){
-					
-					if(t.getX() == j && t.getY() == i){
-						map = map + "|#";
-						if(itT.hasNext())
-							t = (Troll) itT.next();
-					}else
-						map = map + "|O";
+					o += 1; // ajout d un objet sur la case
 					if(itC.hasNext())
 						c = (Cell) itC.next();
-					
-				}else if(t.getX() == j && t.getY() == i){
+				}
+				if(t.getX() == j && t.getY() == i){
+					o += 2; //ajout d un troll sur la case
 					if(itT.hasNext()){
 						t = (Troll) itT.next();
 						if(t.getX() == j && t.getY() == i)
-							map = map + "|X";
-						else
-							map = map + "|T";
-					}else
-						map = map + "|T";
-				}else
+							o += 2;
+					}
+				}
+				
+				switch (o) {
+				case 0:
 					map = map + "| ";
+					break;
+				case 1:
+					map = map + "|¤";
+					break;
+				case 2:
+					map = map + "|T";
+					break;
+				case 3:
+					map = map + "|&";
+					break;
+				case 4:
+					map = map + "|X";
+					break;
+				case 5:
+					map = map + "|#";
+					break;
+				default:
+					break;
+				}
+
 			}
+			
 			map = map + "|\n";
 		}
 		for(int j=0; j<this.map.getX();j++){
 			map = map + "+-";
 		}
-		map = map + "+";
+		map = map + "+\n";
 		
 		System.out.print(map);
 	}

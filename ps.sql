@@ -209,3 +209,28 @@ BEGIN
 	END IF;
 END;
 $$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION equiper(varchar, integer) RETURNS VOID AS $$
+DECLARE
+	r integer;
+	old_id integer;
+BEGIN
+	UPDATE troll SET pa = pa - 2 WHERE nom = $1;
+	
+	SELECT type INTO r FROM arme WHERE id_objet = $2;
+
+	IF r = 0 THEN
+		SELECT id_equip_arme INTO old_id FROM troll WHERE nom = $1;
+		INSERT INTO sad VALUES($1,old_id);
+		UPDATE troll SET id_equip_arme = $2 WHERE nom= $1;
+	ELSE
+		SELECT id_equip_protect INTO old_id FROM troll WHERE nom = $1;
+		INSERT INTO sad VALUES($1,old_id);
+		UPDATE troll SET id_equip_protect = $2 WHERE nom= $1;
+	END IF;
+	DELETE FROM sad WHERE id_objet = $2;
+END;
+$$ LANGUAGE plpgsql;
+
+

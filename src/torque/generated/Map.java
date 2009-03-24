@@ -35,7 +35,7 @@ public  class Map
 			for(int j=0;j<y;j++){
 				compteur++;
 				if (nb_obj>0){
-					if (x*y-compteur == nb_obj || hasard() > 50){
+					if (x*y-compteur <= nb_obj || hasard() > 50){
 						Objet o = new Objet();
 						o.setType("arme");
 						o.save();
@@ -46,16 +46,24 @@ public  class Map
 						c.setIdObjet(o.getId());
 						c.save();
 						
-						if(hasard()>50){
+						int h = hasard();
+						
+						if(h > 66){
 							Arme a = new Arme();
 							a.init(o.getId());
 							a.save();
-						}else{
+						}else if(h > 33){
 							Potion p = new Potion();
 							p.init(o.getId());
+							p.save();
 							o.setType("potion");
 							o.save();
-							p.save();
+						}else{
+							Sort s = new Sort();
+							s.init(o.getId());
+							s.save();
+							o.setType("sort");
+							o.save();
 						}
 						nb_obj--;}
 					else

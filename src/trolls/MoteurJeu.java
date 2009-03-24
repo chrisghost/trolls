@@ -21,6 +21,8 @@ import torque.generated.Potion;
 import torque.generated.PotionPeer;
 import torque.generated.Sad;
 import torque.generated.SadPeer;
+import torque.generated.Sort;
+import torque.generated.SortPeer;
 import torque.generated.Troll;
 import torque.generated.TrollPeer;
 
@@ -66,9 +68,12 @@ public class MoteurJeu {
 		int y = this.IG.questionInt("Taille de l'échiquier en y :");
 		int nb_obj = this.IG.questionInt("Combien d'objets voulez vous mettre sur la carte? (<"+ (x*y+1) +") :");
 		
+		this.IG.afficherBrut("Génération des objets ...");
 		this.carte = new Map();
 		this.carte.init(x,y,nb_obj);
 		IG.affecterMap(this.carte);
+		this.IG.afficherBrut("[OK]\n");
+
 		
 		
 		this.troll1 = new Troll();
@@ -138,7 +143,9 @@ public class MoteurJeu {
 			e.printStackTrace();
 		}
 		if (troll.getVie() != 0){
-			this.IG.afficher("C'est à " + troll.getNom() + " de jouer");
+			this.IG.afficher("******************************************\n" +
+							 "C'est à " + troll.getNom() + " de jouer\n" +
+							 "******************************************\n");
 			
 			String SQL = "select maj_potions();";//Procédure stockée gérant la durée des potions
 			TrollPeer.executeQuery(SQL);//execution de la ps ci dessus
@@ -146,7 +153,10 @@ public class MoteurJeu {
 			this.IG.afficheInfosTroll(troll); //sa position, sa vie restante, son nombre de points d'action
 			while (troll.getPa()!=0 && !fini()){
 				troll.save();
-				this.IG.afficherMap();
+				this.troll1.update();
+				this.troll2.update();
+				
+//				this.IG.afficherMap();
 				int r = MoteurGraphique.menuTour();
 				
 				if (test_action(r, troll)){
@@ -220,38 +230,58 @@ public class MoteurJeu {
 						    	nvO.setIdObjet(a);
 						    	nvO.setNomtroll(troll.getNom());
 						    	nvO.save();
-						    	this.IG.afficher("Vous avez ramassé :");
+						    	this.IG.afficher("Vous avez ramassé ("+a+") :");
 						    	if(ObjetPeer.retrieveByPK(a).getType().equalsIgnoreCase("arme"))
 						    		ArmePeer.retrieveByPK(a).afficher();
 						    	else if(ObjetPeer.retrieveByPK(a).getType().equalsIgnoreCase("potion"))
 						    		PotionPeer.retrieveByPK(a).afficher();
+						    	else if(ObjetPeer.retrieveByPK(a).getType().equalsIgnoreCase("sort"))
+						    		SortPeer.retrieveByPK(a).afficher();
 						    }else
 						    	this.IG.afficher("Aucun objet sur cette case!");
 						}
 						break;}
 					case 4 :{ //Utiliser
 							this.IG.afficherInventairePotion(troll);
-							int potion = this.IG.questionInt("Quelle potion utiliser? (rentrer l'id");
-							Criteria c = new Criteria();
-							c.add("id_objet", potion);
-							Potion p = (Potion) PotionPeer.doSelect(c);
-							p.setUse(true);
-							
-							troll.setAttaque(troll.getAttaque()+p.getBonusattaque());
-							troll.setDegats(troll.getDegats()+p.getBonusdegat());
-							troll.setEsquive(troll.getEsquive()+p.getBonusesquive());
-							troll.setVie(troll.getVie()+p.getBonusvie());
-							troll.save();
-							
+							int id = this.IG.questionInt("Quelle potion/sort utiliser? (rentrer l'id, 0 pour annuler)");
+							if(id != 0){
+								if (ObjetPeer.retrieveByPK(id).getType().equalsIgnoreCase("potion")){
+									Potion p = PotionPeer.retrieveByPK(id);
+									p.setUse(true);
+									p.save();
+									
+									troll.setAttaque(troll.getAttaque()+p.getBonusattaque());
+									troll.setDegats(troll.getDegats()+p.getBonusdegat());
+									troll.setEsquive(troll.getEsquive()+p.getBonusesquive());
+									troll.setVie(troll.getVie()+p.getBonusvie());
+									troll.save();
+							}else if (ObjetPeer.retrieveByPK(id).getType().equalsIgnoreCase("sort")){
+								Sort s = SortPeer.retrieveByPK(id);
+								if(troll.getNom() == this.troll1.getNom())//Troll1
+									this.troll2.enleverVie(s.getDegats());
+								else										// Troll2
+									this.troll1.enleverVie(s.getDegats());
+								SadPeer.deleteAll("sad", "id_objet", id);
+								
+								troll1.save();
+								troll2.save();
+								s.save();
+								}
+							}
 							this.IG.afficheInfosTroll(troll);
 						break;}
 					case 5 :{ //Equiper
 							this.IG.afficherInventaireArme(troll);
-							int arme = this.IG.questionInt("Quelle arme équiper? (rentrer l'id)");
-							if(SadPeer.retrieveByPK(troll.getNom(), arme).toString() != null)
-								troll.setIdEquipArme(arme);
-							else
-								this.IG.afficher("Impossible d'équiper cette arme");
+							int arme = this.IG.questionInt("Quelle arme équiper? (rentrer l'id, 0 pour annuler)");
+							if(arme != 0){
+								if(SadPeer.retrieveByPK(troll.getNom(), arme).toString() != null){
+									SQL = "select equiper('"+troll.getNom()+"',"+arme+")";
+									TrollPeer.executeQuery(SQL);
+								}
+								else
+									this.IG.afficher("Impossible d'équiper cette arme");
+								}
+							troll.update();
 						break;}
 					
 					case 6 :{

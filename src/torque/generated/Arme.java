@@ -25,18 +25,19 @@ public  class Arme
     public void init(int id_objet) {
 			try {
 				this.setIdObjet(id_objet);
+				
+			int type = Map.hasard()%2;
 
-			this.setNom(gen_nom(2));
+			this.setNom(gen_nom(type));
 			this.setBonusattaque(Map.hasard()/10);
 			this.setBonusdegat(Map.hasard()/10);
 			this.setBonusesquive(Map.hasard()/10);
 			this.setPortee(Map.hasard()/20);
-			this.setType(Map.hasard()%2);
+			this.setType(type);
 			
 			} catch (TorqueException e) {
 				e.printStackTrace();
 			}
-		System.out.println(this.getNom());
     	
 	}
     
@@ -54,7 +55,6 @@ public  class Arme
 		} catch (TorqueException e) {
 			e.printStackTrace();
 		}
-	System.out.println(this.getNom());
 	
     }
     public void initAtt(int id_objet) {
@@ -71,7 +71,6 @@ public  class Arme
 		} catch (TorqueException e) {
 			e.printStackTrace();
 		}
-	System.out.println(this.getNom());
 	
 }
     
